@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!--Fredoka-->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Fredoka:wght@300..700&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<!--MontSerrat-->
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Fredoka:wght@300..700&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <title>Vila dos Estudos</title>
+</head>
+<body>
+    <!--header-->
+    <header>
+        <h1 class="logo">
+            <span class="icone">📚</span> 
+            <span class="texto">Vila</span>
+            dos Estudos</h1>
+        <nav>
+            <ul>
+                <li><a href="#">Home</a></li>
+                <li><a href="#sobre-nos">Sobre nós</a></li>
+                <li><a href="#">Matérias</a></li>
+                <li><a href="#">dúvidas</a></li>
+            </ul>
+        </nav>
+    </header>
+    <section id="bem-vindo" class="bem-vindo">
+        <h2>Bem-vindo a Vila dos Estudos!</h2>
+        <p>Aqui você encontra a melhor maneira de estudos para avançar na sua jornada acadêmica!</p>
+        <p>A Vila dos Estudos é uma comunidade de estudantes que busca aprimorar suas habilidades e conhecimentos em diversas areas.</p>
+
+    </section>
+
+    <!--carrossel-->
+    <section id="carrossel" class="carrossel">
+        <h2>Acompanhe novas aulas</h2>
+        <div class="carrossel-container">
+                    <button onclick="voltar()">🢀</button>
+
+            
+                <div id="slide" class="fade"></div>
+                   
+                <button onclick="proximo()">🢂</button>
+        </div>
+    </section>
+
+    <!--sobre nós-->
+    <section id="sobre-nos" class="sobre-nos">
+        <h2>Quem <span>somos</span></h2>
+        <div class="sobre-nos-content">
+            <p>A Vila dos Estudos é uma comunidade de estudantes que busca aprimorar suas habilidades e conhecimentos em diversas áreas. Nosso objetivo é criar um ambiente colaborativo onde os estudantes possam compartilhar recursos, dicas de estudo e motivação para alcançar seus objetivos acadêmicos.</p>
+            <p>Na Vila dos Estudos, acreditamos que o aprendizado é mais eficaz quando é compartilhado. Por isso, incentivamos nossos membros a contribuir com suas próprias experiências e conhecimentos, criando uma rede de apoio mútuo. Juntos, podemos superar desafios acadêmicos e alcançar o sucesso!</p>
+            <p>Seja bem-vindo(a) a Vila dos Estudos! Junte-se a nós e comece a construir um futuro acadêmico melhor!</p>
+            <p>Gostou? deixe o seu <a href="#">comentário!</a></p>
+        </div>
+    </section>
+
+    <section id="comentarios" class="comentarios">
+        <h2>Comentários</h2>
+        <h3>Deixe o seu comentário</h3>
+        <form>
+            <label for="nome">Nome:</label>
+            <input type="text" id="nome" placeholder="nome completo" name="nome" required>
+            <label for="comentario">Comentário:</label>
+            <textarea type="text" id="comentario" placeholder="deixe seu comentário" name="comentario" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+    </section>
+
+    <!--footer-->
+    <footer><p>&copy; <time datetime="2026">2026</time> Vila dos Estudos</p></footer>
+
+    <script src="script.js"></script>
+</body>
+</html>
