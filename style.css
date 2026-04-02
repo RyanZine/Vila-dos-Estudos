@@ -4,6 +4,14 @@
     padding: 0;
     box-sizing: border-box;
 }
+
+:root {
+    --azul: #0a2e6c;
+    --azul-claro: #004aad;
+    --laranja: #FF7A00;
+    --sombra: 2px 2px 4px rgba(0,0,0,0.1);
+}
+
 body{
     background-color:white;
     font-family: 'fredoka', sans-serif;
@@ -35,7 +43,7 @@ header {
 
 .logo span {
     color: #fff;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: var(--sombra);
 }
 
 .texto {
@@ -69,8 +77,8 @@ section {
     margin: 20px 0;
     padding: 20px;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    background-color: rgba(3, 117, 133, 0.05)
+    box-shadow: var(--sombra);
+    background-color: rgba(3, 117, 133, 0.05);
 }
 
 section h2 {
@@ -94,13 +102,13 @@ section p {
     font-size: 32px;
     margin-bottom: 10px;
     color: #0a2e6c;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: var(--sombra);
 }
 
 .bem-vindo p{
     font-size: 18px;
     color: #262626;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: var(--sombra);
 }
 
 /*carrossel*/
@@ -108,7 +116,7 @@ section.carrossel h2 {
     font-size: 24px;
     margin-bottom: 10px;
     color: #0a2e6c;
-    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+    text-shadow: var(--sombra);
 }
 
 .carrossel-container {
@@ -149,6 +157,26 @@ transition: opacity 0.5s ease-in-out;
 .ativo {
     opacity: 1;
     z-index: 1;
+}
+
+/*matérias*/
+#lista-materias {
+    display: flex;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+#lista-materias div {
+    background: var(--azul);
+    color: #fff;
+    padding: 15px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+#lista-materias div:hover {
+    transform: scale(1.05);
 }
 
 /*sobre nós*/
@@ -214,7 +242,7 @@ section.comentarios label {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-section.comentarios input[type="text"],
+.input[type="text"],
 section.comentarios textarea {
     padding: 10px;
     margin-bottom: 10px;
@@ -225,7 +253,7 @@ section.comentarios textarea {
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-section.comentarios button[type="submit"] {
+.button[type="submit"] {
     background-color: #0a2e6c;
     color: #fff;
     padding: 10px 20px;
@@ -236,7 +264,7 @@ section.comentarios button[type="submit"] {
     transition: background-color 0.3s ease;
 }
 
-section.comentarios button[type="submit"]:hover {
+.button[type="submit"]:hover {
     background-color: #004aad;
 }
 
@@ -314,12 +342,12 @@ footer {
     }
 
     /*formulario*/
-    section.comentarios input[type="text"],
+    .input[type="text"],
     section.comentarios textarea {
         font-size: 14px;
     }
 
-    section.comentarios button {
+    .button {
         width: 100%;
     }
 }
