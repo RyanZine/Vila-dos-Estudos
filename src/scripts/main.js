@@ -1,6 +1,20 @@
 //importação de dados
 import materias from "./data.js";
 
+import materias from "./data.js";
+import { supabase } from "./supabase.js"; // <-- A importação nova
+
+// O teste rápido
+async function testarConexao() {
+    const { data, error } = await supabase.from('materias').select('*');
+    if (error) {
+        console.error("Erro:", error);
+    } else {
+        console.log("Conectado! Dados:", data);
+    }
+}
+testarConexao();
+
 //logica carrossel
 const slide = document.getElementById("slide");
 
