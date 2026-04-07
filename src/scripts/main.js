@@ -1,142 +1,85 @@
-//importação de dados
-import materias from "./data.js";
+import { supabase } from "./supabase.js";
 
-import materias from "./data.js";
-import { supabase } from "./supabase.js"; // <-- A importação nova
-
-// O teste rápido
-async function testarConexao() {
-    const { data, error } = await supabase.from('materias').select('*');
-    if (error) {
-        console.error("Erro:", error);
-    } else {
-        console.log("Conectado! Dados:", data);
-    }
-}
-testarConexao();
-
-//logica carrossel
 const slide = document.getElementById("slide");
+const tituloAula = document.getElementById("titulo-aula");
+const textoAula = document.getElementById("texto-aula");
 
-const estado = {
-    materiaIndex: 0,
-    aulaIndex: 0,
-};
+let aulasDinamicas = []; // Aqui vamos guardar as aulas do banco
+let slideAtual = 0;
 
+// 1. Função para buscar as aulas no Supabase
+async function carregarAulas() {
+    // Busca as aulas que já foram publicadas (data <= hoje), ordenadas das mais novas para as mais velhas
+    const hoje = new Date().toISOString();
+    
+    const { data, error } = await supabase
+        .from('aulas')
+        .select('*, materias(nome)') // Traz a aula e o nome da matéria junto!
+        .lte('data_publicacao', hoje)
+        .order('data_publicacao', { ascending: false })
+        .limit(5); // Pega as 5 mais recentes
+
+    if (error) {
+        console.error("Erro ao buscar aulas:", error);
+        slide.innerHTML = `<p>Erro ao carregar as aulas.</p>`;
+        return;
+    }
+
+    aulasDinamicas = data;
+    mostrarSlide();
+}
+
+// 2. Função para mostrar o slide na tela
 function mostrarSlide() {
+    if (aulasDinamicas.length === 0) {
+        slide.innerHTML = `<p>Nenhuma aula disponível no momento.</p>`;
+        return;
+    }
 
-    const materia = materias[estado.materiaIndex];
-    const aula = materia.aulas[estado.aulaIndex];
+    const aula = aulasDinamicas[slideAtual];
 
     slide.classList.remove("ativo");
 
     setTimeout(() => {
-    slide.innerHTML = `
-    <h3>${materia.nome}</h3>
-    <strong>${aula.titulo}</strong>
-    <p>${aula.descricao}</p>
-    `;
-
+        slide.innerHTML = `
+        <h3>${aula.materias.nome}</h3>
+        <strong>${aula.titulo}</strong>
+        <p>${aula.descricao}</p>
+        `;
         slide.classList.add("ativo");
+        
+        // Atualiza a parte de baixo (conteúdo da aula)
+        tituloAula.innerText = aula.titulo;
+        textoAula.innerHTML = aula.conteudo;
     }, 300);
 }
 
+// 3. Controles do Carrossel
 function proximo() {
-    const materia = materias[estado.materiaIndex];
-
-    estado.aulaIndex++;
-
-    if (estado.aulaIndex >= materia.aulas.length) {
-        estado.aulaIndex = 0;
-        estado.materiaIndex++;
-
-    if (estado.materiaIndex >= materias.length) {
-        estado.materiaIndex = 0;
+    slideAtual++;
+    if (slideAtual >= aulasDinamicas.length) {
+        slideAtual = 0; // Volta para o começo
     }
-}
-
     mostrarSlide();
 }
 
 function voltar() {
-   estado.aulaIndex--;
-
-   if(estado.aulaIndex < 0) {
-    estado.materiaIndex--;
-
-    if(estado.materiaIndex < 0) {
-        estado.materiaIndex = materias.length - 1;
+    slideAtual--;
+    if (slideAtual < 0) {
+        slideAtual = aulasDinamicas.length - 1; // Vai para o final
     }
-
-    const materia = materias[estado.materiaIndex];
-    estado.aulaIndex = materia.aulas.length - 1;
-   }
-
-   mostrarSlide();
-}
-
-let intervalo = setInterval(proximo, 3000);
-
-const container = document.querySelector(".carrossel-container");
-
-container.addEventListener("mouseenter", () => {
-    clearInterval(intervalo);
-});
-
-container.addEventListener("mouseleave", () => {
-    intervalo = setInterval(proximo, 3000);
-});
-
-const btnProximo = document.getElementById("btn-proximo");
-const btnVoltar = document.getElementById("btn-voltar");
-
-btnProximo.addEventListener("click", proximo);
-btnVoltar.addEventListener("click", voltar);
-
-mostrarSlide();
-
-const listaMaterias =
-document.getElementById("lista-materias");
-
-function renderMaterias() {
-    listaMaterias.innerHTML = "";
-
-    materias.forEach((materia, index) => {
-        const card = document.createElement("div");
-
-        card.innerHTML = `
-        <h3>${materia.nome}</h3>
-        <p>${materia.aulas.length} aulas</p>
-        `;
-
-        card.addEventListener ("click", () => {
-            selecionarMateria(index);
-        });
-
-        listaMaterias.appendChild(card);
-    });
-}
-
-function selecionarMateria(index) {
-    estado.materiaIndex = index;
-    estado.aulaIndex = 0;
-
     mostrarSlide();
 }
 
-renderMaterias();
+// 4. Configurando os botões e intervalo
+document.getElementById("btn-proximo").addEventListener("click", proximo);
+document.getElementById("btn-voltar").addEventListener("click", voltar);
 
-const tituloAula =
-document.getElementById("titulo-aula");
-const textoAula =
-document.getElementById("texto-aula");
+let intervalo = setInterval(proximo, 3000);
+const container = document.querySelector(".carrossel-container");
 
-function mostrarConteudo() {
-    const materia = materias[estado.materiaIndex];
-    const aula = materia.aulas[estado.aulaIndex];
+container.addEventListener("mouseenter", () => clearInterval(intervalo));
+container.addEventListener("mouseleave", () => intervalo = setInterval(proximo, 3000));
 
-    tituloAula.innerText = aula.titulo;
-    textoAula.innerHTML = aula.conteudo;
-}
-
-mostrarConteudo();
+// 5. Inicia tudo!
+carregarAulas();
