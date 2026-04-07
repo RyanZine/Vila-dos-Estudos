@@ -268,6 +268,76 @@ section.comentarios textarea {
     background-color: #004aad;
 }
 
+/*login e cadastro*/
+.login-container {
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    text-align: center;
+}
+
+.login-container h1 {
+    color: var(--azul);
+    margin-bottom: 20px;
+    font-weight: bold;
+}
+
+.form-box {
+    background-color: rgba(3,117,133,0.05);
+    padding: 30px 20px;
+    border-radius: 10px;
+    box-shadow: var(--sombra);
+    margin-top: 20px;
+}
+
+.form-box h2 {
+    color: var(--azul);
+    margin-bottom: 20px;
+}
+
+.form-box form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+}
+
+.form-box label {
+    margin-bottom: 5px;
+    color: #262626;
+    font-weight: bold;
+}
+
+.form-box .input, .form-box select {
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+    font-family: 'fredoka', sans-serif;
+    font-size: 16px;
+    width: 100%;
+}
+
+.form-box select {
+    cursor: pointer;
+}
+
+.form-box p {
+    margin-top: 20px;
+    font-size: 14px;
+    text-align: center;
+}
+
+.form-box a {
+    color: var(--laranja);
+    font-weight: bold;
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.form-box a:hover {
+    color: var(--azul);
+}
+
 /*footer*/
 footer {
     text-align: center;

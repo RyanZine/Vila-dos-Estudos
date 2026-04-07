@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=MontSerrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/style.css">
+    <title>Login - Vila dos Estudos</title>
+</head>
+<body>
+    <div class="login-container">
+        <h1 class="logo">
+            <span class="icone">📚</span> 
+            <span class="texto">Vila</span>
+            dos Estudos</h1>
+        
+            <div id="form-login" class="form-box">
+                <h2>Entrar</h2>
+                <form id="loginForm">
+                    <label for="email-login">E-mail:</label>
+                    <input type="email" id="email-login" required class="input">
+
+                    <label for="senha-login">Senha:</label>
+                    <input type="password" id="senha-login" required class="input">
+
+                    <button type="submit" class="btn-submit">Entrar</button>
+                </form>
+                <p>Se vocês ainda não possui uma conta, <a href="#" id="link-cadastro">cadastre-se aqui</a></p>
+            </div>
+
+            <div id="form-cadastro" class="form-box" style="display: none;">
+                <h2>Cadastro</h2>
+                <form id="cadastroForm">
+                    <label for="nome-cadastro">Nome:</label>
+                    <input type="text" id="nome-cadastro" required class="input"></label>
+
+                    <label for="email-cadastro">E-mail:</label>
+                    <input type="email" id="email-cadastro" required class="input"></label>
+
+                    <label for="senha-cadastro">Senha(mínimo 6 caracteres):</label>
+                    <input type="password" id="senha-cadastro" minlength="6" required class="input"></label>
+
+                    <label for="tipo-conta">Eu sou:</label>
+                    <select id="tipo-conta" class="input">
+                        <option value="aluno">Aluno</option>
+                        <option value="professor">Professor</option>
+                    </select>
+
+                    <button type="submit" class="btn-submit">Cadastrar</button>
+                </form>
+                <p>Ja possui uma conta? <a href="#" id="link-login">Entrar</a></p>
+            </div>
+    </div>
+
+    <script type="module" src="../scripts/auth.js"></script>
+    
+</body>
+</html>
