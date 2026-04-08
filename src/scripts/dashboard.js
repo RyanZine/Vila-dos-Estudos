@@ -22,8 +22,12 @@ document.getElementById("formNovaAula").addEventListener("submit", async (e) => 
     const materiaId = document.getElementById("materia").value;
     const descricao = document.getElementById("descricao").value;
     const conteudo = document.getElementById("conteudo").value;
+    
+    // Captura a data. Se estiver vazia, pega a data e hora de 'agora'
+    const dataInput = document.getElementById("data").value;
+    const dataPublicacao = dataInput ? new Date(dataInput).toISOString() : new Date().toISOString();
 
-    // 2. Envia os dados para a tabela 'aulas' no Supabase
+    // 2. Envia os dados para o Supabase (agora com a data_publicacao)
     const { error } = await supabase
         .from('aulas')
         .insert([
@@ -31,7 +35,8 @@ document.getElementById("formNovaAula").addEventListener("submit", async (e) => 
                 titulo: titulo, 
                 materia_id: materiaId, 
                 descricao: descricao, 
-                conteudo: conteudo 
+                conteudo: conteudo,
+                data_publicacao: dataPublicacao // <-- A mágica do agendamento entra aqui
             }
         ]);
 
@@ -39,8 +44,7 @@ document.getElementById("formNovaAula").addEventListener("submit", async (e) => 
     if (error) {
         alert("Erro ao publicar a aula: " + error.message);
     } else {
-        alert("Aula publicada com sucesso! 🎉");
-        // Limpa o formulário para o professor poder cadastrar outra aula
+        alert("Aula salva com sucesso! 🎉");
         document.getElementById("formNovaAula").reset();
     }
 });

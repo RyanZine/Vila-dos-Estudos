@@ -11,7 +11,7 @@ let slideAtual = 0;
 async function carregarAulas() {
     // Busca as aulas que já foram publicadas (data <= hoje), ordenadas das mais novas para as mais velhas
     const hoje = new Date().toISOString();
-    
+
     const { data, error } = await supabase
         .from('aulas')
         .select('*, materias(nome)') // Traz a aula e o nome da matéria junto!
@@ -41,16 +41,20 @@ function mostrarSlide() {
     slide.classList.remove("ativo");
 
     setTimeout(() => {
+        // link clicável
         slide.innerHTML = `
-        <h3>${aula.materias.nome}</h3>
-        <strong>${aula.titulo}</strong>
-        <p>${aula.descricao}</p>
+        <a href="aula.html?id=${aula.id}" style="text-decoration: none; color: inherit; display: block; height: 100%;">
+            <h3>${aula.materias.nome}</h3>
+            <strong style="font-size: 20px; display: block; margin: 10px 0;">${aula.titulo}</strong>
+            <p>${aula.descricao}</p>
+            <span style="display: inline-block; margin-top: 15px; color: var(--laranja); font-weight: bold; font-size: 14px;">Ler aula completa ➔</span>
+        </a>
         `;
         slide.classList.add("ativo");
-        
-        // Atualiza a parte de baixo (conteúdo da aula)
+
+        // Atualiza a parte de baixo (resumo)
         tituloAula.innerText = aula.titulo;
-        textoAula.innerHTML = aula.conteudo;
+        textoAula.innerHTML = aula.descricao;
     }, 300);
 }
 
@@ -83,3 +87,35 @@ container.addEventListener("mouseleave", () => intervalo = setInterval(proximo, 
 
 // 5. Inicia tudo!
 carregarAulas();
+
+//interface de usuário
+async function verificarUsuario() {
+    const authArea = document.getElementById("auth-area");
+
+    //verifica se há um usuário na sessão atual
+    const { data: { user } } = await supabase.auth.getUser();
+
+    if (user) {
+        //se estiver logado, busca os dados do perfil na tabela 'perfis'
+        const { data: perfil } = await supabase
+            .from('perfis')
+            .select('nome, role')
+            .eq('id', user.id)
+            .single();
+
+        if (perfil) {
+            const inicial = perfil.nome.charAt(0).toUpperCase();
+            const linkDestino = perfil.role === 'professor' ? 'dashboard_prof.html' : '#';
+
+            authArea.innerHTML = `<div class="user-profile">
+            <span>Olá, ${perfil.nome.split(' ')[0]}!</span>
+            <a href="${linkDestino}" title="Ir para o Painel">
+            <div class="user-avatar">${inicial}
+            </div>
+            </a>
+            </div>`;
+        }
+    }
+}
+
+verificarUsuario();
