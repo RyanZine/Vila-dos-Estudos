@@ -7,17 +7,25 @@ const textoAula = document.getElementById("texto-aula");
 let aulasDinamicas = []; // Aqui vamos guardar as aulas do banco
 let slideAtual = 0;
 
-// 1. Função para buscar as aulas no Supabase
-async function carregarAulas() {
-    // Busca as aulas que já foram publicadas (data <= hoje), ordenadas das mais novas para as mais velhas
+// 1. Função para buscar as aulas no Supabase (Agora com FILTRO!)
+async function carregarAulas(materiaId = null) { // <-- Recebe o ID opcionalmente
     const hoje = new Date().toISOString();
 
-    const { data, error } = await supabase
+    // Começamos a montar o pedido para o banco
+    let query = supabase
         .from('aulas')
-        .select('*, materias(nome)') // Traz a aula e o nome da matéria junto!
+        .select('*, materias(nome)') 
         .lte('data_publicacao', hoje)
         .order('data_publicacao', { ascending: false })
-        .limit(5); // Pega as 5 mais recentes
+        .limit(5); 
+
+    // Se o professor/aluno enviou um ID de matéria, a gente adiciona o filtro na query!
+    if (materiaId) {
+        query = query.eq('materia_id', materiaId);
+    }
+
+    // Só agora mandamos o pedido final pro banco
+    const { data, error } = await query;
 
     if (error) {
         console.error("Erro ao buscar aulas:", error);
@@ -26,6 +34,7 @@ async function carregarAulas() {
     }
 
     aulasDinamicas = data;
+    slideAtual = 0; // Volta para o primeiro slide para o novo filtro
     mostrarSlide();
 }
 
@@ -119,3 +128,63 @@ async function verificarUsuario() {
 }
 
 verificarUsuario();
+
+// --- LÓGICA DE MATÉRIAS E FILTROS ---
+// Correção 1: ID ajustado para "lista-materias"
+const listaMaterias = document.getElementById("lista-materias");
+const dropdownMaterias = document.getElementById("dropdown-materias");
+async function carregarMaterias() {
+    // Correção 2: Apelidamos o 'data' de 'materias' para o forEach funcionar
+    const { data: materias, error } = await supabase
+        .from('materias')
+        .select('*')
+        .order('nome', { ascending: true });
+
+    if (error) {
+        console.error("Erro ao buscar materias:", error);
+        return;
+    }
+
+    // limpa a área antes de colocar os botões
+    listaMaterias.innerHTML = "";
+    dropdownMaterias.innerHTML = "";
+
+    // cria o botão "Todas as matérias"
+    const btnTodas = document.createElement("div");
+    btnTodas.innerText = "Todas as matérias";
+    btnTodas.style.backgroundColor = "var(--laranja)"; // Deixa ele em destaque!
+    btnTodas.addEventListener("click", () => {
+        carregarAulas();
+    });
+    listaMaterias.appendChild(btnTodas);
+
+    //dropdown do header
+    const liTodasDrop = document.createElement("li");
+    liTodasDrop.innerHTML = `<a href="#carrossel">Todas as matérias</a>`;
+    liTodasDrop.addEventListener("click", () => {
+        carregarAulas();
+    });
+    dropdownMaterias.appendChild(liTodasDrop);
+
+    // cria um botão para cada matéria que veio do banco
+    materias.forEach((materia) => {
+        const btnMateria = document.createElement("div");
+        btnMateria.innerText = materia.nome;
+
+        btnMateria.addEventListener("click", () => {
+            carregarAulas(materia.id);
+        });
+
+        listaMaterias.appendChild(btnMateria);
+
+        //dropdown do header 2
+        const liDrop = document.createElement("li");
+        liDrop.innerHTML = `<a href="#carrossel">${materia.nome}</a>`;
+        liDrop.addEventListener("click", () => {
+            carregarAulas(materia.id);
+        });
+        dropdownMaterias.appendChild(liDrop);
+    });
+}
+
+carregarMaterias();

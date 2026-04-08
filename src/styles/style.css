@@ -72,6 +72,47 @@ nav a:hover {
     color: #fff;
 }
 
+.dropdown {
+    position: relative;
+}
+
+.dropdown-content {
+    display: none;
+    position: absolute;
+    background-color: var(--azul);
+    min-width: 200px;
+    box-shadow: var(--sombra);
+    border-radius: 5px;
+    z-index: 100;
+    top: 100%;
+    left: 0;
+    flex-direction: column;
+    gap: 0;
+    padding: 10px 0;
+}
+
+.dropdown:hover .dropdown-content {
+    display: flex;
+}
+
+.dropdown-content li {
+    list-style: none;
+}
+
+.dropdown-content a {
+    color: #fff;
+    padding: 10px 20px;
+    display: block;
+    font-size: 16px;
+    font-weight: normal;
+    text-transform: capitalize;
+}
+
+.dropdown-content a:hover {
+    background-color: var(--laranja);
+    color: var(--azul);
+}
+
 /*autenticação no header*/
 #auth-area {
     display: flex;
