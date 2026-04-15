@@ -3,67 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!--Fredoka-->
     <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Fredoka:wght@300..700&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<!--MontSerrat-->
-<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Fredoka:wght@300..700&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Fredoka:wght@300..700&family=Lobster+Two:ital,wght@0,400;0,700;1,400;1,700&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito+Sans:ital,opsz,wght@0,6..12,200..1000;1,6..12,200..1000&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/style.css">
     <title>Vila dos Estudos</title>
 </head>
 <body>
-    <!--header-->
     <header>
         <h1 class="logo">
             <span class="icone">📚</span> 
             <span class="texto">Vila</span>
-            dos Estudos</h1>
+            dos Estudos
+        </h1>
         <nav>
             <ul>
                 <li><a href="#">Home</a></li>
                 <li><a href="#sobre-nos">Sobre nós</a></li>
-                <li><a href="#">Matérias</a></li>
-                <li><a href="#">dúvidas</a></li>
+
+                <li class="dropdown">
+                    <a href="#materias">Matérias 🔽</a>
+                    <ul id="dropdown-materias" class="dropdown-content">
+                    </ul>
+                </li>
+                
+                <li><a href="#">Dúvidas</a></li>
             </ul>
         </nav>
+        <div id="auth-area">
+            <a href="login.html" class="btn-login-nav">Entrar</a>
+        </div>
     </header>
+
     <section id="bem-vindo" class="bem-vindo">
         <h2>Bem-vindo a Vila dos Estudos!</h2>
         <p>Aqui você encontra a melhor maneira de estudos para avançar na sua jornada acadêmica!</p>
         <p>A Vila dos Estudos é uma comunidade de estudantes que busca aprimorar suas habilidades e conhecimentos em diversas areas.</p>
-
     </section>
 
-    <!--carrossel-->
     <section id="carrossel" class="carrossel">
         <h2>Acompanhe novas aulas</h2>
         <div class="carrossel-container">
-                    <button id="btn-voltar">🢀</button>
-
-            
-                <div id="slide" class="fade"></div>
-                   
-                <button id="btn-proximo">🢂</button>
+            <button id="btn-voltar">🢀</button>
+            <div id="slide" class="fade"></div>
+            <button id="btn-proximo">🢂</button>
         </div>
     </section>
 
-    <!--materias-->
     <section id="materias">
         <h2>Matérias</h2>
-        <div id="lista-materias">
-        </div>
+        <div id="lista-materias"></div>
     </section>
 
-    <!--aulas-->
     <section id="conteudo-aula">
         <h2 id="titulo-aula"></h2>
         <div id="texto-aula"></div>
     </section>
 
-    <!--sobre nós-->
     <section id="sobre-nos" class="sobre-nos">
         <h2>Quem <span>somos</span></h2>
         <div class="sobre-nos-content">
@@ -81,14 +77,20 @@
             <label for="nome">Nome:</label>
             <input type="text" id="nome" placeholder="nome completo" name="nome" required>
             <label for="comentario">Comentário:</label>
-            <textarea type="text" id="comentario" placeholder="deixe seu comentário" name="comentario" required></textarea>
-            <button type="submit">Enviar</button>
+            <textarea id="comentario" placeholder="deixe seu comentário" name="comentario" required></textarea>
+            <button type="submit" class="btn-submit">Enviar</button>
         </form>
     </section>
 
-    <!--footer-->
     <footer><p>&copy; <time datetime="2026">2026</time> Vila dos Estudos</p></footer>
 
-    <script src="script.js"></script>
+    <script>
+        const temaSalvo = localStorage.getItem('tema_vila');
+        if (temaSalvo && temaSalvo !== 'light') {
+            document.documentElement.classList.add(`theme-${temaSalvo}`);
+            // Usa documentElement para injetar na raiz e evitar piscar branco
+        }
+    </script>
+    <script type="module" src="../scripts/main.js"></script>
 </body>
 </html>

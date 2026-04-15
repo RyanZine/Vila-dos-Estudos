@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/style.css">
+    <title>Meu Perfil - Vila dos Estudos</title>
+</head>
+<body>
+    <header>
+        <h1 class="logo cursor-pointer" onclick="window.location.href='index.html'">
+            <span class="icone">👤</span> 
+            <span class="texto">Meu</span> Perfil
+        </h1>
+        <nav>
+            <a href="index.html" class="nav-link">Voltar para Home</a>
+            <button id="btn-logout-perfil" class="btn-submit btn-perigo" style="margin-left: 15px;">Sair da Conta</button>
+        </nav>
+    </header>
+
+    <main class="login-container">
+        <div class="form-box">
+            <h2>Meus Dados</h2>
+            
+            <form id="formPerfil">
+                <div style="text-align: center; margin-bottom: 20px;">
+                    <div style="position: relative; display: inline-block;">
+                        <img id="preview-avatar" src="https://via.placeholder.com/100" alt="Avatar" style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 3px solid var(--laranja);">
+                        <label for="input-avatar" style="position: absolute; bottom: 0; right: 0; background: var(--azul); color: white; border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; cursor: pointer; border: 2px solid white;">📷</label>
+                        <input type="file" id="input-avatar" accept="image/*" style="display: none;">
+                    </div>
+                </div>
+
+                <label for="nome-perfil">Nome Completo:</label>
+                <input type="text" id="nome-perfil" class="input" required>
+
+                <label for="email-perfil">E-mail:</label>
+                <input type="email" id="email-perfil" class="input input-readonly" readonly>
+
+                <div class="flex-row-gap">
+                    <div style="flex: 1;">
+                        <label for="tema-perfil">Tema Visual:</label>
+                        <select id="tema-perfil" class="input">
+                            <option value="light">☀️ Claro (Padrão)</option>
+                            <option value="dark">🌙 Escuro (Dark)</option>
+                            <option value="sepia">📖 Leitura (Sépia)</option>
+                        </select>
+                    </div>
+                    <div style="flex: 1;">
+                        <label for="idioma-perfil">Idioma Preferido:</label>
+                        <select id="idioma-perfil" class="input">
+                            <option value="pt-br">🇧🇷 Português</option>
+                            <option value="en">🇺🇸 Inglês</option>
+                            <option value="es">🇪🇸 Espanhol</option>
+                        </select>
+                    </div>
+                </div>
+
+                <label for="tipo-perfil">Tipo de Conta:</label>
+                <input type="text" id="tipo-perfil" class="input input-readonly" readonly>
+
+                <button type="submit" id="btn-salvar" class="btn-submit" style="margin-top: 10px;">Salvar Alterações</button>
+            </form>
+    </main>
+<script>
+        const temaSalvo = localStorage.getItem('tema_vila');
+        if (temaSalvo && temaSalvo !== 'light') {
+            document.documentElement.classList.add(`theme-${temaSalvo}`);
+            // Usa documentElement para injetar na raiz e evitar piscar branco
+        }
+    </script>
+    <script type="module" src="../scripts/perfil.js"></script>
+</body>
+</html>

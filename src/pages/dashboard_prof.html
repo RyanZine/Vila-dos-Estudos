@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../styles/style.css">
+    <link href="https://cdn.quilljs.com/1.3.6/quill.snow.css" rel="stylesheet">
+    <title>Painel do Professor - Vila dos Estudos</title>
+</head>
+<body>
+    <header>
+        <h1 class="logo">
+            <span class="icone">👨‍🏫</span>
+            <span class="texto">Painel</span> do Professor
+        </h1>
+        <nav>
+            <a href="index.html" class="nav-link">Ver Site</a>
+            <button id="btn-logout" class="btn-submit">Sair</button>
+            <button id="btn-excluir-conta" class="btn-submit btn-perigo" style="margin-left: 10px;">Excluir Conta</button>
+        </nav>
+    </header>
+
+    <main class="login-container">
+        <h2>Bem-vindo, Mestre!</h2>
+        <p>Aqui você poderá cadastrar, editar e excluir aulas.</p>
+
+       <div class="form-box">
+            <h3>Cadastrar Nova Aula</h3>
+            
+            <div id="lista-minhas-aulas" class="flex-column-gap">
+                <p>Carregando aulas...</p>
+            </div>
+
+            <form id="formNovaAula">
+                <label for="titulo">Título da Aula:</label>
+                <input type="text" id="titulo" class="input" placeholder="Ex: Equações de 1º Grau" required>
+                
+                <label for="materia">Matéria:</label>
+                <select id="materia" class="input" required>
+                    <option value="" disabled selected>Selecione a matéria</option>
+                    <option value="1">Matemática</option>
+                    <option value="2">Ciências da Natureza</option>
+                    <option value="3">Ciências Humanas</option>
+                    <option value="4">Língua Portuguesa</option>
+                    <option value="5">Língua Inglesa</option>
+                </select>
+
+                <label for="descricao">Descrição (Resumo para o carrossel):</label>
+                <textarea id="descricao" class="input" rows="2" placeholder="Uma frase curta sobre a aula." required></textarea>
+
+                <label for="data">Data de Publicação (deixe em branco para agora):</label>
+                <input type="datetime-local" id="data" class="input">
+
+               <label for="conteudo">Conteúdo da Aula:</label>
+                <div class="editor-wrapper">
+                    <div id="editor-container"></div>
+                </div>
+                
+                <div class="flex-row-gap">
+                    <button type="submit" id="btn-salvar-aula" class="btn-submit">Publicar Aula</button>
+                    <button type="button" id="btn-cancelar-edicao" class="btn-submit btn-perigo" style="display: none;">Cancelar Edição</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <script>
+        const temaSalvo = localStorage.getItem('tema_vila');
+        if (temaSalvo && temaSalvo !== 'light') {
+            document.documentElement.classList.add(`theme-${temaSalvo}`);
+            // Usa documentElement para injetar na raiz e evitar piscar branco
+        }
+    </script>
+    <script src="https://cdn.quilljs.com/1.3.6/quill.min.js"></script> 
+    <script type="module" src="../scripts/dashboard.js"></script>
+</body>
+</html>
