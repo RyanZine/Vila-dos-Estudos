@@ -1,15 +1,10 @@
 import { supabase } from "./supabase.js";
 
-const formLoginDiv =
-document.getElementById("form-login");
-const formCadastroDiv = 
-document.getElementById("form-cadastro");
-const linkLogin = 
-document.getElementById("link-login");
-const linkCadastro = 
-document.getElementById("link-cadastro");
+const formLoginDiv = document.getElementById("form-login");
+const formCadastroDiv = document.getElementById("form-cadastro");
+const linkLogin = document.getElementById("link-login");
+const linkCadastro = document.getElementById("link-cadastro");
 
-//alterna a visualização entre telas
 linkCadastro.addEventListener("click", (e) => {
     e.preventDefault();
     formLoginDiv.style.display = "none";
@@ -22,27 +17,34 @@ linkLogin.addEventListener("click", (e) => {
     formCadastroDiv.style.display = "none";
 });
 
-//lógica de cadastro
+// Lógica de cadastro MANUAL
 document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
     e.preventDefault();
+    
+    const btnSubmit = e.target.querySelector('button[type="submit"]');
+    const textoOriginal = btnSubmit.innerText;
+    btnSubmit.innerText = "Cadastrando...";
+    btnSubmit.disabled = true;
 
     const nome = document.getElementById("nome-cadastro").value;
     const email = document.getElementById("email-cadastro").value;
     const senha = document.getElementById("senha-cadastro").value;
     const tipoConta = document.getElementById("tipo-conta").value;
 
-    //cadastro na autenticação do Supabase
     const { data: authData, error: authError} = await supabase.auth.signUp({
         email: email,
         password: senha,
+        options: {
+            data: { full_name: nome } // Agora envia o nome certinho!
+        }
     });
 
     if (authError) {
-        console.error("Erro ao cadastrar:" + authError.message);
+        alert("Ops! Erro no cadastro: " + authError.message);
+        btnSubmit.innerText = textoOriginal;
+        btnSubmit.disabled = false;
         return;
     }
-
-    //salva o nome e 'role' na tabela de perfis
 
     if (authData.user) {
         const { error: profileError} = await supabase
@@ -55,15 +57,15 @@ document.getElementById("cadastroForm").addEventListener("submit", async (e) => 
             alert("Erro ao salvar perfil: " + profileError.message);
         } else {
             alert("Cadastro realizado com sucesso!");
-            //reseta e volta para o login
-            document.getElementById("cadastroForm").reset();
-            formCadastroDiv.style.display = "none";
-            formLoginDiv.style.display = "block";
+            window.location.href = "index.html"; // Manda direto pra Home!
         }
     }
+    
+    btnSubmit.innerText = textoOriginal;
+    btnSubmit.disabled = false;
 });
 
-//lógica de login
+// Lógica de login MANUAL
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -78,24 +80,24 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     if (error) {
         alert("E-mail ou senha incorretos.");
     } else {
-        //pega role dobanco para direcionar
         const { data: perfilData } = await supabase
         .from('perfis')
         .select('role')
         .eq('id', data.user.id)
         .single();
 
-        if(perfilData.role ==='professor') {
+        if(perfilData.role === 'professor') {
             window.location.href = "dashboard_prof.html";
         } else {
-            window.location.href = "index.html";}
-        
+            window.location.href = "index.html";
+        }
     }
-    });
-   // --- LÓGICA DE CADASTRO COM GOOGLE ---
-const btnGoogleCadastro = document.getElementById("btn-google-cadastro");
-if (btnGoogleCadastro) {
-    btnGoogleCadastro.addEventListener("click", async () => {
+});
+
+// Lógica de CADASTRO e LOGIN com GOOGLE
+const botoesGoogle = document.querySelectorAll(".btn-google");
+botoesGoogle.forEach(botao => {
+    botao.addEventListener("click", async () => {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
@@ -107,4 +109,4 @@ if (btnGoogleCadastro) {
             alert("Erro ao conectar com o Google: " + error.message);
         }
     });
-}
+});

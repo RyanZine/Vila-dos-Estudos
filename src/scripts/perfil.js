@@ -74,8 +74,9 @@ document.getElementById("formPerfil").addEventListener("submit", async (e) => {
     // Aplica o tema na tela na mesma hora
     aplicarTema(novosDados.tema);
     
-    // Salva o tema no LocalStorage para não piscar branco ao recarregar
+    // Salva no LocalStorage para o navegador lembrar (CORRIGIDO: Agora salva o idioma também!)
     localStorage.setItem('tema_vila', novosDados.tema); 
+    localStorage.setItem('idioma_vila', novosDados.idioma);
 
     // Se o usuário escolheu uma foto nova, envia pro Storage
     if (arquivoFotoNova) {
@@ -107,6 +108,8 @@ document.getElementById("formPerfil").addEventListener("submit", async (e) => {
         alert("Erro ao atualizar o perfil: " + error.message);
     } else {
         alert("Perfil atualizado com sucesso! ✨");
+        // CORRIGIDO BÔNUS: Força a página a recarregar para o i18n traduzir tudo na hora
+        window.location.reload(); 
     }
 });
 
@@ -120,8 +123,9 @@ function aplicarTema(tema) {
 
 document.getElementById("btn-logout-perfil").addEventListener("click", async () => {
     await supabase.auth.signOut();
-    localStorage.removeItem('tema_vila'); // Limpa o tema ao sair
-    window.location.href = "../index.html";
+    localStorage.removeItem('tema_vila');
+    localStorage.removeItem('idioma_vila'); // Limpa a memória ao sair
+    window.location.href = "index.html"; // CORRIGIDO: Retirado o "../"
 });
 
 carregarPerfil();
