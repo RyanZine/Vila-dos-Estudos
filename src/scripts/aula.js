@@ -26,7 +26,10 @@ async function carregarAulaCompleta() {
     //joga os dados na tela
     document.getElementById("tag-materia").innerText = aula.materias.nome;
     document.getElementById("titulo-aula").innerText = aula.titulo;
-    document.getElementById("corpo-aula").innerHTML = aula.conteudo;
+    document.getElementById("corpo-aula").innerHTML = DOMPurify.sanitize(aula.conteudo, {
+ADD_TAGS: ['iframe'],
+ADD_ATTR: ['allow', 'allowfullscreen', 'frameborder', 'scrolling']
+});
 
     //oculta carregamento e mostra o conteúdo
     document.getElementById("carregando-aula").style.display = "none";

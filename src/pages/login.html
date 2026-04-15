@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=MontSerrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@300..700&family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="../styles/style.css">
     <title>Login - Vila dos Estudos</title>
 </head>
@@ -11,48 +11,64 @@
     <div class="login-container">
         <h1 class="logo">
             <span class="icone">📚</span> 
-            <span class="texto">Vila</span>
-            dos Estudos</h1>
+            <span class="texto">Vila</span> dos Estudos
+        </h1>
         
-            <div id="form-login" class="form-box">
-                <h2>Entrar</h2>
-                <form id="loginForm">
-                    <label for="email-login">E-mail:</label>
-                    <input type="email" id="email-login" required class="input">
+        <div id="form-login" class="form-box">
+            <h2>Entrar</h2>
+            <form id="loginForm">
+                <label for="email-login">E-mail:</label>
+                <input type="email" id="email-login" required class="input">
 
-                    <label for="senha-login">Senha:</label>
-                    <input type="password" id="senha-login" required class="input">
+                <label for="senha-login">Senha:</label>
+                <input type="password" id="senha-login" required class="input">
 
-                    <button type="submit" class="btn-submit">Entrar</button>
-                </form>
-                <p>Se vocês ainda não possui uma conta, <a href="#" id="link-cadastro">cadastre-se aqui</a></p>
+                <button type="submit" class="btn-submit">Entrar</button>
+            </form>
+            
+            <div class="text-center-margin">
+                <p class="text-muted">ou</p>
+                <button id="btn-google" class="btn-submit btn-google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo">
+                    Entrar com Google
+                </button>
             </div>
 
-            <div id="form-cadastro" class="form-box" style="display: none;">
-                <h2>Cadastro</h2>
-                <form id="cadastroForm">
-                    <label for="nome-cadastro">Nome:</label>
-                    <input type="text" id="nome-cadastro" required class="input"></label>
+            <p>Se você ainda não possui uma conta, <a href="#" id="link-cadastro">cadastre-se aqui</a></p>
+        </div>
 
-                    <label for="email-cadastro">E-mail:</label>
-                    <input type="email" id="email-cadastro" required class="input"></label>
+        <div id="form-cadastro" class="form-box hidden" style="display: none;">
+            <h2>Cadastro</h2>
+            <form id="cadastroForm">
+                <label for="nome-cadastro">Nome:</label>
+                <input type="text" id="nome-cadastro" required class="input">
 
-                    <label for="senha-cadastro">Senha(mínimo 6 caracteres):</label>
-                    <input type="password" id="senha-cadastro" minlength="6" required class="input"></label>
+                <label for="email-cadastro">E-mail:</label>
+                <input type="email" id="email-cadastro" required class="input">
 
-                    <label for="tipo-conta">Eu sou:</label>
-                    <select id="tipo-conta" class="input">
-                        <option value="aluno">Aluno</option>
-                        <option value="professor">Professor</option>
-                    </select>
+                <label for="senha-cadastro">Senha (mínimo 6 caracteres):</label>
+                <input type="password" id="senha-cadastro" minlength="6" required class="input">
 
-                    <button type="submit" class="btn-submit">Cadastrar</button>
-                </form>
-                <p>Ja possui uma conta? <a href="#" id="link-login">Entrar</a></p>
+                <label for="tipo-conta">Eu sou:</label>
+                <select id="tipo-conta" class="input">
+                    <option value="aluno">Aluno</option>
+                    <option value="professor">Professor</option>
+                </select>
+
+                <button type="submit" class="btn-submit" style="margin-top: 15px;">Cadastrar</button>
+            </form>
+            
+            <div class="text-center-margin">
+                <p class="text-muted">ou</p>
+                <button id="btn-google-cadastro" class="btn-submit btn-google">
+                    <img src="https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg" alt="Google Logo">
+                    Cadastrar com Google
+                </button>
             </div>
+            <p style="margin-top: 20px;">Já possui uma conta? <a href="#" id="link-login">Entrar</a></p>
+        </div>
     </div>
 
     <script type="module" src="../scripts/auth.js"></script>
-    
 </body>
 </html>

@@ -1,4 +1,5 @@
 import { supabase } from "./supabase.js";
+import { traduzirPagina } from "./i18n.js";
 
 const slide = document.getElementById("slide");
 const tituloAula = document.getElementById("titulo-aula");
@@ -97,37 +98,70 @@ container.addEventListener("mouseleave", () => intervalo = setInterval(proximo, 
 // 5. Inicia tudo!
 carregarAulas();
 
-//interface de usuário
+// --- INTERFACE DE USUÁRIO E VERIFICAÇÃO ---
 async function verificarUsuario() {
     const authArea = document.getElementById("auth-area");
 
-    //verifica se há um usuário na sessão atual
     const { data: { user } } = await supabase.auth.getUser();
 
     if (user) {
-        //se estiver logado, busca os dados do perfil na tabela 'perfis'
+        // Tenta buscar o perfil do usuário
         const { data: perfil } = await supabase
             .from('perfis')
-            .select('nome, role')
+            .select('nome, role, avatar_url')
             .eq('id', user.id)
             .single();
 
-        if (perfil) {
-            const inicial = perfil.nome.charAt(0).toUpperCase();
-            const linkDestino = perfil.role === 'professor' ? 'dashboard_prof.html' : '#';
+        // SE O PERFIL NÃO EXISTIR: Significa que ele acabou de se cadastrar via Google!
+        if (!perfil) {
+            // Pega o nome e a foto que o Google forneceu
+            const nomeGoogle = user.user_metadata.full_name || 'Novo Usuário';
+            const fotoGoogle = user.user_metadata.avatar_url || '';
 
-            authArea.innerHTML = `<div class="user-profile">
-            <span>Olá, ${perfil.nome.split(' ')[0]}!</span>
-            <a href="${linkDestino}" title="Ir para o Painel">
-            <div class="user-avatar">${inicial}
-            </div>
-            </a>
+            // Cria o perfil na tabela 'perfis' definindo ele como 'aluno' por padrão
+            await supabase.from('perfis').insert([{ 
+                id: user.id, 
+                nome: nomeGoogle, 
+                role: 'aluno',
+                avatar_url: fotoGoogle
+            }]);
+
+            // Recarrega a página rapidinho para mostrar os dados recém-criados
+            window.location.reload();
+            return;
+        }
+
+        // SE O PERFIL EXISTE: Mostra o avatar normalmente
+        if (perfil) {
+            const primeiroNome = perfil.nome.split(' ')[0];
+            
+            // Se ele tiver foto (do Google ou que subiu no perfil), mostra a foto. Se não, mostra a letra.
+            const avatarHTML = perfil.avatar_url 
+                ? `<img src="${perfil.avatar_url}" alt="Foto de Perfil" style="width: 40px; height: 40px; border-radius: 50%; object-fit: cover; border: 2px solid #fff;">`
+                : `<div class="user-avatar">${perfil.nome.charAt(0).toUpperCase()}</div>`;
+
+            authArea.innerHTML = `
+            <div class="user-profile">
+                <span data-i18n="ola_usuario">Olá, ${primeiroNome}!</span>
+                <a href="perfil.html" title="Meu Perfil" style="text-decoration: none;">
+                    ${avatarHTML}
+                </a>
             </div>`;
         }
     }
 }
 
-verificarUsuario();
+if (perfil) {
+            const inicial = perfil.nome.charAt(0).toUpperCase();
+            
+            // AGORA TODO MUNDO VAI PARA O PERFIL!
+            authArea.innerHTML = `<div class="user-profile">
+            <span>Olá, ${perfil.nome.split(' ')[0]}!</span>
+            <a href="perfil.html" title="Meu Perfil" style="text-decoration: none;">
+                <div class="user-avatar">${inicial}</div>
+            </a>
+            </div>`;
+        }
 
 // --- LÓGICA DE MATÉRIAS E FILTROS ---
 // Correção 1: ID ajustado para "lista-materias"
@@ -188,3 +222,4 @@ async function carregarMaterias() {
 }
 
 carregarMaterias();
+traduzirPagina();

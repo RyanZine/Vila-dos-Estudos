@@ -92,3 +92,19 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
         
     }
     });
+   // --- LÓGICA DE CADASTRO COM GOOGLE ---
+const btnGoogleCadastro = document.getElementById("btn-google-cadastro");
+if (btnGoogleCadastro) {
+    btnGoogleCadastro.addEventListener("click", async () => {
+        const { error } = await supabase.auth.signInWithOAuth({
+            provider: 'google',
+            options: {
+                redirectTo: window.location.origin + '/index.html'
+            }
+        });
+
+        if (error) {
+            alert("Erro ao conectar com o Google: " + error.message);
+        }
+    });
+}
