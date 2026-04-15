@@ -1,5 +1,27 @@
 import { supabase } from "./supabase.js";
 
+// --- VERIFICAÇÃO DE SESSÃO ATIVA (Leão de Chácara) ---
+// Se o usuário já estiver logado e tentar abrir a página de login, ele é expulso de volta pro lugar certo.
+async function bloquearLoginDuplo() {
+    const { data: { user } } = await supabase.auth.getUser();
+    
+    if (user) {
+        const { data: perfil } = await supabase
+            .from('perfis')
+            .select('role')
+            .eq('id', user.id)
+            .single();
+
+        if (perfil && perfil.role === 'professor') {
+            window.location.href = "dashboard_prof.html";
+        } else {
+            window.location.href = "index.html";
+        }
+    }
+}
+
+bloquearLoginDuplo();
+
 const formLoginDiv = document.getElementById("form-login");
 const formCadastroDiv = document.getElementById("form-cadastro");
 const linkLogin = document.getElementById("link-login");
