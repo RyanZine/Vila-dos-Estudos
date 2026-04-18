@@ -62,19 +62,12 @@
 
                 <button type="submit" id="btn-salvar" class="btn-submit" style="margin-top: 10px;">Salvar Alterações</button>
             </form>
-
-            <div id="area-professor" class="area-professor">
-                <h3>Área do Professor</h3>
-                <p>Acesse seu painel para gerenciar e publicar novas aulas.</p>
-                <a href="dashboard_prof.html" class="btn-submit btn-laranja-block">Ir para o Painel 👨‍🏫</a>
-            </div>
-        </div>
     </main>
-
-    <script>
+<script>
         const temaSalvo = localStorage.getItem('tema_vila');
         if (temaSalvo && temaSalvo !== 'light') {
             document.documentElement.classList.add(`theme-${temaSalvo}`);
+            // Usa documentElement para injetar na raiz e evitar piscar branco
         }
     </script>
     <script type="module" src="../scripts/perfil.js"></script>
