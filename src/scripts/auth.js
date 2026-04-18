@@ -1,32 +1,15 @@
 import { supabase } from "./supabase.js";
 
-// --- VERIFICAÇÃO DE SESSÃO ATIVA (Leão de Chácara) ---
-// Se o usuário já estiver logado e tentar abrir a página de login, ele é expulso de volta pro lugar certo.
-async function bloquearLoginDuplo() {
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    if (user) {
-        const { data: perfil } = await supabase
-            .from('perfis')
-            .select('role')
-            .eq('id', user.id)
-            .single();
+const formLoginDiv =
+document.getElementById("form-login");
+const formCadastroDiv = 
+document.getElementById("form-cadastro");
+const linkLogin = 
+document.getElementById("link-login");
+const linkCadastro = 
+document.getElementById("link-cadastro");
 
-        if (perfil && perfil.role === 'professor') {
-            window.location.href = "dashboard_prof.html";
-        } else {
-            window.location.href = "index.html";
-        }
-    }
-}
-
-bloquearLoginDuplo();
-
-const formLoginDiv = document.getElementById("form-login");
-const formCadastroDiv = document.getElementById("form-cadastro");
-const linkLogin = document.getElementById("link-login");
-const linkCadastro = document.getElementById("link-cadastro");
-
+//alterna a visualização entre telas
 linkCadastro.addEventListener("click", (e) => {
     e.preventDefault();
     formLoginDiv.style.display = "none";
@@ -39,34 +22,27 @@ linkLogin.addEventListener("click", (e) => {
     formCadastroDiv.style.display = "none";
 });
 
-// Lógica de cadastro MANUAL
+//lógica de cadastro
 document.getElementById("cadastroForm").addEventListener("submit", async (e) => {
     e.preventDefault();
-    
-    const btnSubmit = e.target.querySelector('button[type="submit"]');
-    const textoOriginal = btnSubmit.innerText;
-    btnSubmit.innerText = "Cadastrando...";
-    btnSubmit.disabled = true;
 
     const nome = document.getElementById("nome-cadastro").value;
     const email = document.getElementById("email-cadastro").value;
     const senha = document.getElementById("senha-cadastro").value;
     const tipoConta = document.getElementById("tipo-conta").value;
 
+    //cadastro na autenticação do Supabase
     const { data: authData, error: authError} = await supabase.auth.signUp({
         email: email,
         password: senha,
-        options: {
-            data: { full_name: nome } // Agora envia o nome certinho!
-        }
     });
 
     if (authError) {
-        alert("Ops! Erro no cadastro: " + authError.message);
-        btnSubmit.innerText = textoOriginal;
-        btnSubmit.disabled = false;
+        console.error("Erro ao cadastrar:" + authError.message);
         return;
     }
+
+    //salva o nome e 'role' na tabela de perfis
 
     if (authData.user) {
         const { error: profileError} = await supabase
@@ -79,15 +55,15 @@ document.getElementById("cadastroForm").addEventListener("submit", async (e) => 
             alert("Erro ao salvar perfil: " + profileError.message);
         } else {
             alert("Cadastro realizado com sucesso!");
-            window.location.href = "index.html"; // Manda direto pra Home!
+            //reseta e volta para o login
+            document.getElementById("cadastroForm").reset();
+            formCadastroDiv.style.display = "none";
+            formLoginDiv.style.display = "block";
         }
     }
-    
-    btnSubmit.innerText = textoOriginal;
-    btnSubmit.disabled = false;
 });
 
-// Lógica de login MANUAL
+//lógica de login
 document.getElementById("loginForm").addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -102,24 +78,24 @@ document.getElementById("loginForm").addEventListener("submit", async (e) => {
     if (error) {
         alert("E-mail ou senha incorretos.");
     } else {
+        //pega role dobanco para direcionar
         const { data: perfilData } = await supabase
         .from('perfis')
         .select('role')
         .eq('id', data.user.id)
         .single();
 
-        if(perfilData.role === 'professor') {
+        if(perfilData.role ==='professor') {
             window.location.href = "dashboard_prof.html";
         } else {
-            window.location.href = "index.html";
-        }
+            window.location.href = "index.html";}
+        
     }
-});
-
-// Lógica de CADASTRO e LOGIN com GOOGLE
-const botoesGoogle = document.querySelectorAll(".btn-google");
-botoesGoogle.forEach(botao => {
-    botao.addEventListener("click", async () => {
+    });
+   // --- LÓGICA DE CADASTRO COM GOOGLE ---
+const btnGoogleCadastro = document.getElementById("btn-google-cadastro");
+if (btnGoogleCadastro) {
+    btnGoogleCadastro.addEventListener("click", async () => {
         const { error } = await supabase.auth.signInWithOAuth({
             provider: 'google',
             options: {
@@ -131,4 +107,4 @@ botoesGoogle.forEach(botao => {
             alert("Erro ao conectar com o Google: " + error.message);
         }
     });
-});
+}
