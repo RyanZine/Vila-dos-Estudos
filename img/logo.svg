@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 760 200" width="760" height="200" role="img" aria-label="Vila dos Estudos">
+  <rect width="760" height="200" rx="24" fill="#0a2e6c"/>
+  <rect width="760" height="200" rx="24" fill="#004aad" opacity=".35"/>
+  <g transform="translate(118,100)">
+    <path d="M0-64 62-26v6H-62v-6Z" fill="#ff7a00"/>
+    <path d="M-46-12h40a10 10 0 0 1 6 3v49a10 10 0 0 0-6-3h-40Z" fill="#ffffff"/>
+    <path d="M46-12H6a10 10 0 0 0-6 3v49a10 10 0 0 1 6-3h40Z" fill="#e6edf8"/>
+    <path d="M0-9v49" stroke="#0a2e6c" stroke-width="3"/>
+    <path d="M-38 2h22M-38 14h22M10 2h22M10 14h22" stroke="#9fb4d4" stroke-width="3" stroke-linecap="round"/>
+  </g>
+  <text x="232" y="92" font-family="'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="46" font-weight="700" fill="#ffffff" letter-spacing="1">Vila dos Estudos</text>
+  <text x="234" y="130" font-family="'Segoe UI',Roboto,Helvetica,Arial,sans-serif" font-size="18" font-weight="600" fill="#ff7a00" letter-spacing="4">PLATAFORMA DE ESTUDOS</text>
+</svg>

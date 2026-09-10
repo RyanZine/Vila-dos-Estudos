@@ -1,8 +1,16 @@
-# Vila dos Estudos
+<p align="center">
+  <img src="img/logo.svg" alt="Vila dos Estudos" width="620">
+</p>
 
-Plataforma web de estudos: um aluno entra, navega por matérias, assiste às aulas
-publicadas e acompanha o próprio perfil; um professor tem um painel próprio para
-publicar conteúdo. Interface em três idiomas.
+<p align="center">
+  <strong>Plataforma de estudos com área de aluno e painel de professor</strong>
+</p>
+
+---
+
+Um aluno entra, navega por matérias, assiste às aulas publicadas e acompanha o
+próprio perfil; um professor tem um painel próprio para publicar conteúdo.
+Interface em três idiomas.
 
 ## Stack
 
